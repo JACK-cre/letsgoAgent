@@ -1,0 +1,25 @@
+# Only track backend/ directory
+frontend/
+deploy/
+docs/
+.env.example
+.DS_Store
+
+# Java
+backend/target/
+
+# Maven
+.m2/
+.npm-cache/
+
+# Environment
+.env
+*.local
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# CodeFlicker
+.codeflicker/

@@ -1,0 +1,20 @@
+# Compiled
+target/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+
+# Environment
+.env
+*.local
+
+# CodeFlicker
+.codeflicker/
+
+# Maven
+.m2/

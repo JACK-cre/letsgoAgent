@@ -1,0 +1,34 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: personal-agent-assistant
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/personal_agent?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false}
+    username: ${MYSQL_USER:agent}
+    password: ${MYSQL_PASSWORD:agent_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DATABASE:0}
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      chat:
+        options:
+          model: ${OPENAI_MODEL:gpt-4.1-mini}
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+agent:
+  ai:
+    mode: ${AGENT_AI_MODE:mock}
+  memory:
+    recent-message-limit: ${RECENT_MESSAGE_LIMIT:12}
+
