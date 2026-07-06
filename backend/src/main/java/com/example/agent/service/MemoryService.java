@@ -6,12 +6,14 @@ import com.example.agent.entity.UserMemory;
 import com.example.agent.entity.UserPreference;
 import com.example.agent.mapper.UserMemoryMapper;
 import com.example.agent.mapper.UserPreferenceMapper;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Profile("!dev")
 public class MemoryService {
 
     private final UserMemoryMapper memoryMapper;
@@ -47,7 +49,11 @@ public class MemoryService {
         preference.setPreferenceValue(request.getValue());
         preference.setSource("user");
         preference.setConfidence(BigDecimal.ONE);
-        preferenceMapper.upsert(preference);
+        UserPreference existing = preferenceMapper.findOne(userId, request.getKey());
+        if (existing == null) {
+            preferenceMapper.insert(preference);
+        } else {
+            preferenceMapper.update(preference);
+        }
     }
 }
-

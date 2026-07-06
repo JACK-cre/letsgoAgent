@@ -28,7 +28,11 @@ mybatis:
 
 agent:
   ai:
-    mode: ${AGENT_AI_MODE:mock}
+    mode: ${AGENT_AI_MODE:deepseek}
+  deepseek:
+    base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
+    api-key: ${DEEPSEEK_API_KEY:}
+    model: ${DEEPSEEK_MODEL:deepseek-chat}
   memory:
+    store: ${AGENT_MEMORY_STORE:redis}
     recent-message-limit: ${RECENT_MESSAGE_LIMIT:12}
-

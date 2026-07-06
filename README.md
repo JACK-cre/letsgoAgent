@@ -49,11 +49,25 @@ docker compose -f deploy/docker-compose.yml up --build
 
 ## 不使用 Docker 的本机开发
 
-如果你的默认 Java 不是 JDK 17，可以临时指定：
+如果你暂时没有 MySQL / Redis，可以使用 `dev` 模式。这个模式会使用内存版用户、偏好、记忆和会话数据，适合先把前后端联调跑通。
 
 ```bash
 cd personal-agent-assistant/backend
-JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home mvn spring-boot:run
+JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home \
+SPRING_PROFILES_ACTIVE=dev \
+AGENT_AI_MODE=mock \
+mvn spring-boot:run
+```
+
+使用 DeepSeek：
+
+```bash
+cd personal-agent-assistant/backend
+JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home \
+SPRING_PROFILES_ACTIVE=dev \
+AGENT_AI_MODE=deepseek \
+DEEPSEEK_API_KEY=你的DeepSeekKey \
+mvn spring-boot:run
 ```
 
 前端：
@@ -63,3 +77,7 @@ cd personal-agent-assistant/frontend
 npm install
 npm run dev
 ```
+
+打开 http://localhost:5173。
+
+注意：`dev` 模式数据只存在内存里，后端重启后会恢复为 demo 数据。正式环境仍然使用 MySQL + Redis。
