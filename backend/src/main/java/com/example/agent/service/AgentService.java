@@ -10,6 +10,7 @@ import com.example.agent.memory.AgentContext;
 import com.example.agent.memory.ShortTermMemoryManager;
 import com.example.agent.skill.AgentSkill;
 import com.example.agent.skill.SkillResult;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,13 +30,13 @@ public class AgentService {
             MemoryService memoryService,
             ShortTermMemoryManager shortTermMemoryManager,
             SkillRouterService skillRouterService,
-            AgentCallLogMapper logMapper
+            ObjectProvider<AgentCallLogMapper> logMapperProvider
     ) {
         this.userProfileService = userProfileService;
         this.memoryService = memoryService;
         this.shortTermMemoryManager = shortTermMemoryManager;
         this.skillRouterService = skillRouterService;
-        this.logMapper = logMapper;
+        this.logMapper = logMapperProvider.getIfAvailable();
     }
 
     public ChatResponse chat(ChatRequest request) {
@@ -68,7 +69,9 @@ public class AgentService {
         log.setSelectedSkill(result.getSkillCode());
         log.setModelResponse(result.getAnswer());
         log.setLatencyMs(System.currentTimeMillis() - startedAt);
-        logMapper.insert(log);
+        if (logMapper != null) {
+            logMapper.insert(log);
+        }
 
         return ChatResponse.builder()
                 .userId(request.getUserId())
@@ -78,4 +81,3 @@ public class AgentService {
                 .build();
     }
 }
-
